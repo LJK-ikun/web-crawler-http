@@ -1,13 +1,13 @@
 const { crawlPage } = require('./crawl.js')
-const { print } = require('./crawl.js')
+const { printReport } = require('./report.js')
 
-async function amain(){
+async function main(){
     if(process.argv.length < 3) {
-        console.log("no website provided")
+        console.log("你没有提供网址")
         process.exit(1)
     }
     if(process.argv.length > 3) {
-        console.log("too many command line args")
+        console.log("你提供了过多参数")
         process.exit(1)
     }
     const baseURL = process.argv[2]
