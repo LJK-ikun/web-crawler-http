@@ -1,8 +1,7 @@
 const {crawlPage} = require('./crawl.js')
 
 function main(){
-    console.log("从终端输入你要爬取的网站")
-    if(process.length.length < 3) {
+    if(process.argv.length < 3) {
         console.log("no website provided")
         process.exit(1)
     }
@@ -12,6 +11,10 @@ function main(){
     }
     const baseURL = process.argv[2]
     console.log(`开始爬取${baseURL}`)
-    crawlPage(baseURL)
+    const pages = crawlPage(baseURL,baseURL,{})
+
+    for(const page of Object.entries(pages)){
+        console.log(page)
+    }
 }
 main()
