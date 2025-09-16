@@ -1,6 +1,31 @@
 const { url } = require("inspector")
 const {JSDOM} = require("jsdom")
 
+//爬取url
+async function crawlPage(currentURL){
+    console.log(`正在爬取${currentURL}`)
+
+    try {
+        const resp = await fetch(currentURL)
+        if(resp.status > 399){
+            console.log(`fetch请求${currentURL}失败,错误代码是${resp.status}`)
+            return
+        }
+
+        const contentType = resp.headers.get("content-type")
+        if (!contentType.includes("text/html")){
+            console.log(`内容类型不属于文本HTML,文本类型是${contentType},链接${currentURL}`)
+            return
+        }
+
+        
+        console.log(await resp.text())
+    } catch(err) {
+        console.log(`fetch请求失败:${err.message}`)
+    }
+}
+
+//从html中爬取链接
 function getURLsFromHTML(htmlBody,baseURL){
     const urls = []
     const dom = new JSDOM(htmlBody)
@@ -39,5 +64,6 @@ function normalizeURL(urlString) {
 
 module.exports = {
     normalizeURL,
-    getURLsFromHTML
+    getURLsFromHTML,
+    crawlPage
 }
